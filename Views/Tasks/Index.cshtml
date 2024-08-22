@@ -1,0 +1,36 @@
+
+@model List<ToDoApp.Models.TaskItem>
+@{
+    ViewData["Title"] = "To-Do List";
+}
+
+<h2>To-Do List</h2>
+
+<form asp-action="Add" method="post">
+    <input type="text" name="description" placeholder="New Task" />
+    <button type="submit" class="btn btn-primary">Add Task</button>
+</form>
+
+<ul>
+    @foreach (var task in Model)
+    {
+        <li>
+            @task.Description
+            @if (!task.IsCompleted)
+            {
+                <form asp-action="MarkComplete" method="post" style="display:inline">
+                    <input type="hidden" name="id" value="@task.Id" />
+                    <button type="submit" class="btn btn-success">Complete</button>
+                </form>
+            }
+            else
+            {
+                <span class="text-success">(Completed)</span>
+            }
+            <form asp-action="Delete" method="post" style="display:inline">
+                <input type="hidden" name="id" value="@task.Id" />
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </li>
+    }
+</ul>
